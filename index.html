@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual de Prompts para Professores do Ensino Médio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>(function(){try{var t=localStorage.getItem('manual-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<style>
+:root{
+  --paper:#FFFFFF; --paper-2:#EEF3FB; --card:#FFFFFF; --ink:#0B1E4A; --ink-2:#3A4A6B; --muted:#7483A3; --line:#DCE4F2;
+  --blue:#1D4ED8; --blue-2:#2563EB; --blue-soft:#E4ECFF; --navy:#0B1E4A; --navy-2:#132C66;
+  --accent:#0B1E4A; --accent-ink:#FFFFFF; --coral:#D9485F;
+  --ph-bg:#E4ECFF; --ph-ink:#1A3FAF; --topbar-bg:rgba(255,255,255,.82); --row-hover:#F5F8FE; --checked-bg:#F0F5FF;
+  --ring:rgba(37,99,235,.18); --totop:#0B1E4A; --scrim:rgba(11,30,74,.4); --slot:#F5F8FE;
+  --radius:14px; --shadow:0 1px 2px rgba(11,30,74,.05),0 8px 24px -12px rgba(11,30,74,.18);
+  --ease:cubic-bezier(.22,.8,.26,1);
+  color-scheme:light;
+}
+[data-theme="dark"]{
+  --paper:#07122B; --paper-2:#0D1C3D; --card:#0F2147; --ink:#E7EDFA; --ink-2:#B3C0DB; --muted:#7F8FB2; --line:#1E3263;
+  --blue:#4D86FF; --blue-2:#6B9BFF; --blue-soft:rgba(77,134,255,.16); --navy:#040B1D; --navy-2:#0B1E4A;
+  --accent:#2F6BFF; --accent-ink:#FFFFFF;
+  --ph-bg:rgba(77,134,255,.18); --ph-ink:#A9C4FF; --topbar-bg:rgba(7,18,43,.82); --row-hover:#13295A; --checked-bg:#12295A;
+  --ring:rgba(77,134,255,.3); --totop:#2F6BFF; --scrim:rgba(0,0,0,.55); --slot:#0D1C3D;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{transition:background-color .35s,color .35s;margin:0;background:var(--paper);color:var(--ink);font:17px/1.7 Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--blue)}
+::selection{background:var(--ph-bg)}
+
+/* top progress */
+.progress{position:fixed;inset:0 0 auto 0;height:3px;z-index:60;background:transparent}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),#60A5FA);transition:width .12s linear}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;padding:12px 24px;
+  background:var(--topbar-bg);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+.topbar.scrolled{border-color:var(--line);box-shadow:0 6px 20px -16px rgba(0,0,0,.25)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em;text-decoration:none;color:var(--ink)}
+.brand .logo{width:30px;height:30px;border-radius:9px;background:var(--blue);display:grid;place-items:center;color:#fff;font-family:Fraunces,serif;font-size:17px}
+.topbar .current{margin-left:auto;color:var(--muted);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45vw;opacity:0;transform:translateY(4px);transition:.35s var(--ease)}
+.topbar.scrolled .current{opacity:1;transform:none}
+.menu-btn{display:none;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:7px 12px;font:600 14px Figtree;color:var(--ink);cursor:pointer;gap:8px;align-items:center}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:64px 24px 64px;background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(620px 340px at 88% 0%,rgba(37,99,235,.55),transparent 62%),
+  radial-gradient(520px 320px at 0% 100%,rgba(96,165,250,.22),transparent 60%);pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(to bottom,#000,transparent 85%);-webkit-mask-image:linear-gradient(to bottom,#000,transparent 85%);pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:1080px;margin:0 auto}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#A9C4FF;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:6px 12px;border-radius:999px}
+.hero h1{font-family:Fraunces,serif;font-weight:600;font-size:clamp(36px,6vw,64px);line-height:1.04;letter-spacing:-.025em;margin:20px 0 18px;max-width:14ch;color:#fff}
+.hero h1 em{font-style:normal;color:#8DB4FF}
+.hero p.lead{font-size:19px;color:#C9D6F2;max-width:56ch;margin:0 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:12px;font-weight:600;text-decoration:none;transition:transform .25s var(--ease),box-shadow .25s,background .25s}
+.btn.primary{background:#2563EB;color:#fff;box-shadow:0 10px 24px -10px rgba(37,99,235,.9)}
+.btn.primary:hover{background:#3B76F6;transform:translateY(-2px)}
+.btn.secondary{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.btn.secondary:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+.qcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:44px}
+.qcard{display:flex;gap:10px;align-items:center;padding:12px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;text-decoration:none;color:#E7EDFA;font-weight:500;font-size:15px;transition:transform .25s var(--ease),background .25s,border-color .25s}
+.qcard .n{font-family:Fraunces,serif;color:#8DB4FF;font-weight:600;font-size:14px}
+.qcard:hover{transform:translateY(-2px);background:rgba(255,255,255,.12);border-color:rgba(141,180,255,.6)}
+.hero .anim{opacity:0;transform:translateY(14px);animation:rise .8s var(--ease) forwards}
+.hero .anim:nth-child(2){animation-delay:.08s}.hero .anim:nth-child(3){animation-delay:.16s}
+.hero .anim:nth-child(4){animation-delay:.24s}.hero .anim:nth-child(5){animation-delay:.32s}.hero .anim:nth-child(6){animation-delay:.4s}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* logos */
+.logos{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px}
+.logo-slot{position:relative;width:150px;height:64px;border-radius:12px;display:grid;place-items:center;overflow:hidden;
+  border:1.5px dashed rgba(255,255,255,.28);background:rgba(255,255,255,.04);color:rgba(255,255,255,.55);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.logo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:8px;background:#fff}
+.logo-slot.has-img{border-style:solid;border-color:rgba(255,255,255,.2)}
+.footer-logos{justify-content:center;margin:0 0 16px}
+.footer-logos .logo-slot{border-color:var(--line);background:var(--slot);color:var(--muted)}
+
+.logo-slot.logo-main{width:220px;height:76px;font-size:13px}
+
+/* closing / arte Agestar */
+.closing{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;align-items:center;margin:24px 0 0;padding:36px;border-radius:24px;
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff;position:relative;overflow:hidden}
+.closing::before{content:"";position:absolute;inset:0;background:radial-gradient(420px 260px at 100% 0%,rgba(37,99,235,.55),transparent 65%),radial-gradient(300px 220px at 0% 100%,rgba(45,212,191,.18),transparent 65%);pointer-events:none}
+.closing > *{position:relative}
+.closing-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8DB4FF;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);padding:5px 11px;border-radius:99px}
+.closing h2{font-family:Fraunces,serif;font-weight:600;font-size:clamp(26px,3.2vw,34px);line-height:1.15;letter-spacing:-.02em;margin:14px 0 12px;color:#fff}
+.closing p{color:#C9D6F2;margin:0 0 22px}
+.closing-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn.outline{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.24)}
+.btn.outline:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
+.closing-art{position:relative;padding:0;border:0;background:none;cursor:zoom-in;border-radius:18px;transform:rotate(2.5deg);transition:transform .5s var(--ease),box-shadow .5s;box-shadow:0 30px 50px -20px rgba(0,0,0,.6)}
+.closing-art:hover,.closing-art:focus-visible{transform:rotate(0) translateY(-6px) scale(1.02);box-shadow:0 40px 60px -22px rgba(0,0,0,.7)}
+.closing-art:focus-visible{outline:3px solid #8DB4FF;outline-offset:4px}
+.closing-art img{display:block;width:100%;height:auto;border-radius:18px}
+.zoom-hint{position:absolute;left:50%;bottom:12px;transform:translate(-50%,6px);background:rgba(11,30,74,.85);color:#fff;font-size:12px;font-weight:600;padding:5px 10px;border-radius:99px;opacity:0;transition:.3s var(--ease);white-space:nowrap}
+.closing-art:hover .zoom-hint{opacity:1;transform:translate(-50%,0)}
+.lightbox{position:fixed;inset:0;z-index:90;background:rgba(4,11,29,.86);display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lightbox img{max-width:min(92vw,620px);max-height:88vh;width:auto;height:auto;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.6);transform:scale(.94);transition:transform .4s var(--ease)}
+.lightbox.open img{transform:none}
+.lb-close{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:18px;cursor:pointer}
+.lb-close:hover{background:rgba(255,255,255,.18)}
+@media (max-width:760px){.closing{grid-template-columns:1fr;padding:26px}.closing-art{max-width:300px;margin:0 auto;transform:none}}
+
+/* topbar actions */
+.actions{display:flex;align-items:center;gap:8px;margin-left:12px}
+.topbar .current{margin-left:auto}
+.icon-btn{width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:background .2s,transform .2s var(--ease),border-color .2s}
+.icon-btn:hover{border-color:var(--blue);transform:translateY(-1px)}
+.icon-btn .sun{display:none}
+[data-theme="dark"] .icon-btn .sun{display:block}
+[data-theme="dark"] .icon-btn .moon{display:none}
+.team-link{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:11px;background:var(--blue);color:#fff;font-weight:600;font-size:14px;text-decoration:none;transition:background .2s,transform .2s var(--ease)}
+.team-link:hover{background:var(--blue-2);transform:translateY(-1px)}
+@media (max-width:560px){.logos{gap:10px}.logo-slot.logo-main{width:180px;height:64px}.team-link .lbl{display:none}.team-link{width:40px;padding:0;justify-content:center}.brand .txt{display:none}}
+
+/* layout */
+.layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:260px minmax(0,1fr);gap:56px;padding:48px 24px 120px}
+aside.toc{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;padding-right:6px;scrollbar-width:thin}
+.toc-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px 12px}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc > nav > ul > li{margin:2px 0}
+.toc a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink-2);padding:7px 12px;border-radius:10px;font-size:15px;line-height:1.35;transition:background .2s,color .2s}
+.toc a .n{font-family:Fraunces,serif;font-size:13px;color:var(--muted);min-width:20px;transition:color .2s}
+.toc a:hover{background:var(--paper-2);color:var(--ink)}
+.toc a.active{background:var(--card);color:var(--ink);font-weight:600;box-shadow:var(--shadow)}
+.toc a.active .n{color:var(--blue)}
+.toc .subs{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--ease);margin-left:22px;border-left:2px solid var(--line)}
+.toc .subs > li:first-child{min-height:0}
+.toc .subs{overflow:hidden}
+.toc li.open > .subs{grid-template-rows:1fr}
+.toc .subs-inner{min-height:0}
+.toc .subs a{font-size:14px;padding:5px 12px;border-radius:0 8px 8px 0;margin-left:-2px;border-left:2px solid transparent}
+.toc .subs a.active{background:transparent;box-shadow:none;border-left-color:var(--blue);color:var(--blue)}
+
+main{min-width:0;max-width:760px}
+.chapter{padding-top:8px;margin-bottom:84px}
+.chapter-num{display:inline-block;font-family:Fraunces,serif;font-weight:600;font-size:15px;color:var(--blue);background:var(--blue-soft);border-radius:8px;padding:2px 10px;margin-bottom:10px}
+.chapter h2{font-family:Fraunces,serif;font-weight:600;font-size:clamp(28px,3.6vw,38px);line-height:1.15;letter-spacing:-.02em;margin:0 0 20px}
+.sub{margin-top:40px}
+.sub h3{display:flex;align-items:center;gap:12px;font-family:Fraunces,serif;font-weight:600;font-size:23px;line-height:1.25;margin:0 0 12px;letter-spacing:-.01em}
+.badge{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink);font:700 16px Figtree}
+p{margin:0 0 16px}
+strong{font-weight:700}
+main ul,main ol{padding-left:22px;margin:0 0 18px}
+main li{margin:6px 0}
+main li::marker{color:var(--blue)}
+
+/* tables */
+.table-wrap{overflow-x:auto;margin:20px 0 24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:15.5px;line-height:1.55}
+th,td{text-align:left;vertical-align:top;padding:14px 18px;border-bottom:1px solid var(--line)}
+thead th{background:var(--paper-2);font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+thead th strong{font-weight:700}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background .2s}
+tbody tr:hover{background:var(--row-hover)}
+td:first-child{font-weight:600}
+
+/* prompt cards */
+.prompt{position:relative;margin:20px 0 26px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.prompt::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--blue),var(--blue-2))}
+.prompt-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 0 22px}
+.prompt-tag{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.prompt blockquote{margin:0;padding:8px 22px 18px;font-size:16.5px;color:var(--ink)}
+.prompt blockquote p:last-child{margin:0}
+mark.ph{background:var(--ph-bg);color:var(--ph-ink);border-radius:5px;padding:0 3px;font-weight:600}
+.copy{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--paper);color:var(--ink-2);border-radius:9px;padding:6px 10px;font:600 13px Figtree;cursor:pointer;transition:background .2s,color .2s,transform .15s}
+.copy:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.copy:active{transform:scale(.96)}
+.copy.done{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+/* chat */
+.chat{display:flex;flex-direction:column;gap:10px;margin:18px 0 26px;padding:20px;background:var(--paper-2);border-radius:var(--radius)}
+.bubble{max-width:82%;padding:10px 14px;border-radius:16px;font-size:15.5px;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.bubble .who{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-bottom:2px}
+.bubble.me{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.bubble.ai{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px;color:var(--ink-2);font-style:italic}
+.chat.in .bubble{animation:pop .5s var(--ease) both}
+.chat.in .bubble:nth-child(2){animation-delay:.15s}.chat.in .bubble:nth-child(3){animation-delay:.3s}
+.chat.in .bubble:nth-child(4){animation-delay:.45s}.chat.in .bubble:nth-child(5){animation-delay:.6s}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+
+/* search */
+.search{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 14px;margin:20px 0 8px;color:var(--muted);transition:border-color .2s,box-shadow .2s;position:sticky;top:70px;z-index:5}
+.search:focus-within{border-color:var(--blue-2);box-shadow:0 0 0 4px var(--ring)}
+.search input{flex:1;border:0;outline:0;background:transparent;font:16px Figtree;color:var(--ink);padding:10px 0}
+#tplCount{font-size:13px;white-space:nowrap}
+.tpl{transition:opacity .3s}
+.tpl.hidden{display:none}
+.empty{display:none;padding:24px;text-align:center;color:var(--muted)}
+
+/* checklist */
+.check-progress{display:flex;align-items:center;gap:14px;margin:0 0 20px}
+.check-progress .bar{flex:1;height:8px;border-radius:99px;background:var(--paper-2);overflow:hidden}
+.check-progress .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),#60A5FA);border-radius:99px;transition:width .5s var(--ease)}
+#checkCount{font-size:14px;font-weight:600;color:var(--ink-2);white-space:nowrap}
+.ghost{border:0;background:none;color:var(--muted);font:600 13px Figtree;cursor:pointer;padding:4px 6px;border-radius:6px}
+.ghost:hover{color:var(--coral)}
+ul.task-list{list-style:none;padding:0}
+.task-list li{margin:8px 0}
+.task-list label{display:flex;gap:14px;align-items:flex-start;padding:12px 16px;background:var(--card);border:1px solid var(--line);border-radius:12px;cursor:pointer;transition:border-color .2s,background .2s,transform .2s var(--ease)}
+.task-list label:hover{border-color:var(--blue-2);transform:translateX(3px)}
+.task-list input{position:absolute;opacity:0;pointer-events:none}
+.task-list .box{flex:none;width:22px;height:22px;margin-top:2px;border-radius:7px;border:2px solid var(--line);background:var(--paper);position:relative;transition:background .25s,border-color .25s}
+.task-list .box::after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);transition:transform .25s var(--ease)}
+.task-list input:checked + .box{background:var(--blue);border-color:var(--blue)}
+.task-list input:checked + .box::after{transform:rotate(45deg) scale(1)}
+.task-list input:focus-visible + .box{box-shadow:0 0 0 4px var(--ring)}
+.task-list label:has(input:checked){background:var(--checked-bg)}
+
+/* chapter nav footer */
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+.pager a{flex:1;max-width:48%;padding:14px 16px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:var(--ink);background:var(--card);transition:transform .25s var(--ease),border-color .25s}
+.pager a:hover{transform:translateY(-2px);border-color:var(--blue-2)}
+.pager small{display:block;color:var(--muted);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.pager .next{text-align:right;margin-left:auto}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* back to top */
+.totop{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border-radius:14px;border:0;background:var(--totop);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 24px -10px rgba(0,0,0,.5);opacity:0;transform:translateY(12px);pointer-events:none;transition:.35s var(--ease);z-index:40}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{background:var(--blue)}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--navy-2);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:.35s var(--ease);pointer-events:none;z-index:70}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+footer{border-top:1px solid var(--line);padding:32px 24px;text-align:center;color:var(--muted);font-size:14px}
+
+/* mobile */
+.scrim{position:fixed;inset:0;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity .3s;z-index:55}
+@media (max-width:960px){
+  .layout{grid-template-columns:1fr;gap:0;padding-top:32px}
+  .menu-btn{display:inline-flex}
+  .topbar .current{display:none}
+  .actions{margin-left:auto}
+  aside.toc{position:fixed;top:0;left:0;bottom:0;height:100vh;height:100dvh;align-self:stretch;width:min(320px,86vw);max-height:none;background:var(--paper);z-index:56;padding:20px 14px;transform:translateX(-105%);transition:transform .4s var(--ease);box-shadow:20px 0 40px -20px rgba(0,0,0,.3)}
+  body.nav-open aside.toc{transform:none}
+  body.nav-open .scrim{opacity:1;pointer-events:auto}
+  .search{top:62px}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .hero{padding:48px 20px 44px}
+  .layout{padding-left:18px;padding-right:18px}
+  th,td{padding:12px 14px}
+  .bubble{max-width:92%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal,.hero .anim{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="progress"><i id="prog"></i></div>
+
+<header class="topbar" id="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Abrir sumário" aria-expanded="false">
+    <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Sumário
+  </button>
+  <a class="brand" href="#top"><span class="logo">P</span><span class="txt">Manual de Prompts</span></a>
+  <span class="current" id="current"></span>
+  <div class="actions">
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+      <svg class="moon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <svg class="sun" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <a class="team-link" href="equipe.html" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14.8c2 .7 3.2 2.5 3.6 5.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="lbl">Ver equipe</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <!-- ESPAÇO PARA O LOGO: salve o arquivo como assets/logo.png -->
+    <div class="logos anim" aria-label="Logo do projeto">
+      <div class="logo-slot logo-main"><img src="assets/logo.png" alt="Logo do projeto" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()">Logo</div>
+    </div>
+    <span class="eyebrow anim">Guia prático · Ensino Médio</span>
+    <h1 class="anim">Manual de <em>Prompts</em> para Professores</h1>
+    <p class="lead anim">Aprenda, passo a passo, a pedir o que você precisa para a inteligência artificial e receber respostas úteis já na primeira tentativa, com modelos prontos para copiar, preencher e usar.</p>
+    <div class="cta anim">
+      <a class="btn primary" href="#para-que-serve-este-manual">Começar a leitura
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn secondary" href="#modelos-de-prompts-prontos-para-o-ensino-medio">Ir direto aos modelos</a>
+      <a class="btn secondary" href="equipe.html" target="_blank" rel="noopener">Ver equipe ↗</a>
+    </div>
+    <div class="qcards anim"><a class="qcard" href="#para-que-serve-este-manual"><span class="n">01</span><span>Para que serve</span></a><a class="qcard" href="#o-que-e-um-prompt-e-por-que-ele-faz-diferenca"><span class="n">02</span><span>O que é um prompt</span></a><a class="qcard" href="#os-5-elementos-de-um-bom-prompt"><span class="n">03</span><span>Os 5 elementos</span></a><a class="qcard" href="#como-conversar-com-a-ia-melhorando-a-resposta-em"><span class="n">04</span><span>Conversando com a IA</span></a><a class="qcard" href="#tecnicas-extras-que-fazem-diferenca"><span class="n">05</span><span>Técnicas extras</span></a><a class="qcard" href="#erros-comuns-e-como-corrigir"><span class="n">06</span><span>Erros comuns</span></a><a class="qcard" href="#modelos-de-prompts-prontos-para-o-ensino-medio"><span class="n">07</span><span>Modelos prontos</span></a><a class="qcard" href="#cuidados-importantes"><span class="n">08</span><span>Cuidados importantes</span></a><a class="qcard" href="#checklist-antes-de-enviar-o-prompt"><span class="n">09</span><span>Checklist</span></a></div>
+  </div>
+</section>
+
+<div class="layout">
+  <aside class="toc" id="toc" aria-label="Sumário">
+    <p class="toc-title">Sumário</p>
+    <nav><ul><li><a href="#para-que-serve-este-manual" data-target="para-que-serve-este-manual"><span class="n">01</span><span class="t">Para que serve</span></a></li><li><a href="#o-que-e-um-prompt-e-por-que-ele-faz-diferenca" data-target="o-que-e-um-prompt-e-por-que-ele-faz-diferenca"><span class="n">02</span><span class="t">O que é um prompt</span></a></li><li><a href="#os-5-elementos-de-um-bom-prompt" data-target="os-5-elementos-de-um-bom-prompt"><span class="n">03</span><span class="t">Os 5 elementos</span></a><ul class="subs"><li><a href="#os-5-element-1-papel-quem-a-ia-deve-ser" data-target="os-5-element-1-papel-quem-a-ia-deve-ser">Papel</a></li><li><a href="#os-5-element-2-tarefa-o-que-voce-quer-que-ela-faca" data-target="os-5-element-2-tarefa-o-que-voce-quer-que-ela-faca">Tarefa</a></li><li><a href="#os-5-element-3-contexto-a-situacao-real" data-target="os-5-element-3-contexto-a-situacao-real">Contexto</a></li><li><a href="#os-5-element-4-formato-como-a-resposta-deve-vir" data-target="os-5-element-4-formato-como-a-resposta-deve-vir">Formato</a></li><li><a href="#os-5-element-5-tom-e-linguagem-como-deve-soar" data-target="os-5-element-5-tom-e-linguagem-como-deve-soar">Tom e linguagem</a></li><li><a href="#os-5-element-os-5-elementos-juntos" data-target="os-5-element-os-5-elementos-juntos">Os 5 elementos juntos</a></li></ul></li><li><a href="#como-conversar-com-a-ia-melhorando-a-resposta-em" data-target="como-conversar-com-a-ia-melhorando-a-resposta-em"><span class="n">04</span><span class="t">Conversando com a IA</span></a></li><li><a href="#tecnicas-extras-que-fazem-diferenca" data-target="tecnicas-extras-que-fazem-diferenca"><span class="n">05</span><span class="t">Técnicas extras</span></a><ul class="subs"><li><a href="#tecnicas-ext-entregue-o-material-de-apoio" data-target="tecnicas-ext-entregue-o-material-de-apoio">Entregue o material de apoio</a></li><li><a href="#tecnicas-ext-mostre-um-modelo" data-target="tecnicas-ext-mostre-um-modelo">Mostre um modelo</a></li><li><a href="#tecnicas-ext-peca-uma-previa-antes-do-material-completo" data-target="tecnicas-ext-peca-uma-previa-antes-do-material-completo">Peça uma prévia antes do material completo</a></li><li><a href="#tecnicas-ext-deixe-a-ia-fazer-perguntas" data-target="tecnicas-ext-deixe-a-ia-fazer-perguntas">Deixe a IA fazer perguntas</a></li><li><a href="#tecnicas-ext-peca-opcoes-para-escolher" data-target="tecnicas-ext-peca-opcoes-para-escolher">Peça opções para escolher</a></li><li><a href="#tecnicas-ext-peca-que-ela-revise-o-proprio-trabalho" data-target="tecnicas-ext-peca-que-ela-revise-o-proprio-trabalho">Peça que ela revise o próprio trabalho</a></li></ul></li><li><a href="#erros-comuns-e-como-corrigir" data-target="erros-comuns-e-como-corrigir"><span class="n">06</span><span class="t">Erros comuns</span></a></li><li><a href="#modelos-de-prompts-prontos-para-o-ensino-medio" data-target="modelos-de-prompts-prontos-para-o-ensino-medio"><span class="n">07</span><span class="t">Modelos prontos</span></a><ul class="subs"><li><a href="#modelos-de-p-1-sequencia-de-aulas" data-target="modelos-de-p-1-sequencia-de-aulas">Sequência de aulas</a></li><li><a href="#modelos-de-p-2-questoes-no-estilo-enem" data-target="modelos-de-p-2-questoes-no-estilo-enem">Questões no estilo ENEM</a></li><li><a href="#modelos-de-p-3-proposta-de-redacao-com-correcao-orientada" data-target="modelos-de-p-3-proposta-de-redacao-com-correcao-orientada">Proposta de redação com correção orientada</a></li><li><a href="#modelos-de-p-4-correcao-e-devolutiva-de-redacao" data-target="modelos-de-p-4-correcao-e-devolutiva-de-redacao">Correção e devolutiva de redação</a></li><li><a href="#modelos-de-p-5-explicar-um-conteudo-dificil" data-target="modelos-de-p-5-explicar-um-conteudo-dificil">Explicar um conteúdo difícil</a></li><li><a href="#modelos-de-p-6-adaptar-um-texto-para-quem-tem-dificuldade-de" data-target="modelos-de-p-6-adaptar-um-texto-para-quem-tem-dificuldade-de">Adaptar um texto para quem tem dificuldade de leitura</a></li><li><a href="#modelos-de-p-7-atividade-de-recuperacao" data-target="modelos-de-p-7-atividade-de-recuperacao">Atividade de recuperação</a></li><li><a href="#modelos-de-p-8-debate-ou-juri-simulado" data-target="modelos-de-p-8-debate-ou-juri-simulado">Debate ou júri simulado</a></li><li><a href="#modelos-de-p-9-projeto-de-vida-e-orientacao" data-target="modelos-de-p-9-projeto-de-vida-e-orientacao">Projeto de vida e orientação</a></li><li><a href="#modelos-de-p-10-comunicado-para-responsaveis" data-target="modelos-de-p-10-comunicado-para-responsaveis">Comunicado para responsáveis</a></li><li><a href="#modelos-de-p-11-rubrica-de-avaliacao" data-target="modelos-de-p-11-rubrica-de-avaliacao">Rubrica de avaliação</a></li><li><a href="#modelos-de-p-12-revisao-para-prova" data-target="modelos-de-p-12-revisao-para-prova">Revisão para prova</a></li></ul></li><li><a href="#cuidados-importantes" data-target="cuidados-importantes"><span class="n">08</span><span class="t">Cuidados importantes</span></a></li><li><a href="#checklist-antes-de-enviar-o-prompt" data-target="checklist-antes-de-enviar-o-prompt"><span class="n">09</span><span class="t">Checklist</span></a></li></ul></nav>
+  </aside>
+  <main id="main">
+    
+
+<section class="chapter" data-num="01" id="para-que-serve-este-manual">
+<span class="chapter-num">01</span><h2>Para que serve este manual</h2>
+<p class="reveal">Este manual ensina, passo a passo, a pedir o que você precisa para a
+inteligência artificial (IA) e receber respostas úteis já na primeira
+tentativa. Ele complementa o guia principal e foi pensado para
+professores do ensino médio da rede pública, com exemplos prontos para
+copiar, preencher e usar.</p>
+<p class="reveal">Você não precisa saber nada de tecnologia. Se você sabe explicar uma
+tarefa para um colega ou para um estagiário, já sabe o essencial para
+escrever um bom prompt.</p>
+<p class="reveal"><strong>Como usar este manual:</strong></p>
+<ol class="reveal" type="1">
+<li>Leia uma vez, com calma, as partes que vão de “O que é um prompt”
+até “Erros comuns”. Elas explicam o “porquê” de cada dica.</li>
+<li>Quando precisar de um material, vá direto aos “Modelos de prompts
+prontos”, escolha um modelo e troque o que está entre colchetes [ ] pela
+sua realidade.</li>
+<li>Antes de enviar, confira o checklist no final do manual.</li>
+</ol>
+</section>
+<section class="chapter" data-num="02" id="o-que-e-um-prompt-e-por-que-ele-faz-diferenca">
+<span class="chapter-num">02</span><h2>O que é um prompt e por que ele faz diferença</h2>
+<p class="reveal">Prompt é o pedido que você escreve para a IA: uma pergunta, uma ordem
+ou uma explicação do que você quer. A qualidade da resposta depende
+quase toda da qualidade desse pedido.</p>
+<p class="reveal">Pense na IA como um assistente muito rápido e muito estudado, mas que
+acabou de chegar à sua escola. Ele não conhece sua turma, não sabe em
+que ponto do conteúdo você está e não sabe quanto tempo de aula você
+tem. Tudo o que você não disser, ele vai adivinhar, e quase sempre vai
+adivinhar o “médio”: um texto genérico, que serve para todo mundo e para
+ninguém.</p>
+<p class="reveal"><strong>Compare:</strong></p>
+<div class="table-wrap reveal"><table class="">
+
+<thead>
+<tr class="header">
+<th><strong>Pedido</strong></th>
+<th><strong>O que a IA entrega</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“Faça uma atividade sobre Revolução Industrial.”</td>
+<td>Uma lista de perguntas genéricas, sem nível definido, que pode
+servir para o 6º ano ou para a faculdade.</td>
+</tr>
+<tr class="even">
+<td>“Crie uma atividade de 30 minutos sobre as condições de trabalho na
+Revolução Industrial para uma turma do 2º ano do ensino médio, com 5
+questões que comparem aquela época com o trabalho por aplicativo
+hoje.”</td>
+<td>Uma atividade com o tamanho certo, o nível da turma e uma conexão
+com a realidade dos alunos.</td>
+</tr>
+</tbody>
+</table></div>
+<p class="reveal">O segundo pedido levou um minuto a mais para ser escrito e economizou
+vários minutos de ajustes depois.</p>
+</section>
+<section class="chapter" data-num="03" id="os-5-elementos-de-um-bom-prompt">
+<span class="chapter-num">03</span><h2>Os 5 elementos de um bom prompt</h2>
+<p class="reveal">Um bom prompt costuma ter cinco partes. Você não precisa usar todas
+sempre, mas quanto mais delas aparecerem, melhor a resposta.</p>
+<section class="sub reveal" id="os-5-element-1-papel-quem-a-ia-deve-ser">
+<h3><span class="badge">1</span>Papel: quem a IA deve ser</h3>
+<p>Comece dizendo qual profissional a IA deve imitar. Isso muda o
+vocabulário, o nível de detalhe e o tipo de cuidado da resposta.</p>
+<ul>
+<li>“Aja como um professor de Química experiente, que dá aula em escola
+pública.”</li>
+<li>“Aja como um coordenador pedagógico que conhece a BNCC do ensino
+médio.”</li>
+<li>“Aja como um corretor de redações do ENEM.”</li>
+</ul>
+<p><strong>Dica:</strong> quanto mais específico o papel, melhor.
+“Professor” é vago; “professor de Sociologia do 1º ano que trabalha com
+debates” já orienta muito a resposta.</p>
+</section>
+<section class="sub reveal" id="os-5-element-2-tarefa-o-que-voce-quer-que-ela-faca">
+<h3><span class="badge">2</span>Tarefa: o que você quer que ela faça</h3>
+<p>Use um verbo claro e diga o que deve ser entregue. Evite pedidos
+amplos como “me ajude com…” ou “fale sobre…”.</p>
+<div class="table-wrap reveal"><table class="">
+
+<thead>
+<tr class="header">
+<th><strong>Verbo</strong></th>
+<th><strong>Quando usar</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Crie / Elabore</td>
+<td>Material novo: plano de aula, prova, atividade, roteiro</td>
+</tr>
+<tr class="even">
+<td>Resuma</td>
+<td>Transformar um texto longo em pontos principais</td>
+</tr>
+<tr class="odd">
+<td>Explique</td>
+<td>Tornar um conceito mais fácil de entender</td>
+</tr>
+<tr class="even">
+<td>Adapte / Reescreva</td>
+<td>Mudar o nível, o tamanho ou o tom de um texto que você já tem</td>
+</tr>
+<tr class="odd">
+<td>Corrija / Revise</td>
+<td>Apontar erros e sugerir melhorias</td>
+</tr>
+<tr class="even">
+<td>Compare</td>
+<td>Mostrar semelhanças e diferenças entre duas ideias</td>
+</tr>
+<tr class="odd">
+<td>Liste / Sugira</td>
+<td>Ter ideias e opções para escolher</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="sub reveal" id="os-5-element-3-contexto-a-situacao-real">
+<h3><span class="badge">3</span>Contexto: a situação real</h3>
+<p>É o elemento mais importante e o mais esquecido. Conte para a IA tudo
+o que você contaria a um colega que fosse te substituir na aula:</p>
+<ul>
+<li><strong>A turma:</strong> série, idade média, quantidade de alunos,
+se é turno noturno ou EJA.</li>
+<li><strong>O ponto do conteúdo:</strong> o que os alunos já sabem e o
+que ainda não viram.</li>
+<li><strong>Os recursos:</strong> tem projetor? internet? só quadro e
+giz? Os alunos têm celular?</li>
+<li><strong>O tempo:</strong> uma aula de 50 minutos, duas aulas
+geminadas, um bimestre.</li>
+<li><strong>O objetivo:</strong> preparar para o ENEM, recuperar
+conteúdo, despertar interesse, avaliar.</li>
+<li><strong>Desafios da turma:</strong> dificuldade de leitura, pouca
+participação, conversas paralelas, alunos com deficiência.</li>
+</ul>
+</section>
+<section class="sub reveal" id="os-5-element-4-formato-como-a-resposta-deve-vir">
+<h3><span class="badge">4</span>Formato: como a resposta deve vir</h3>
+<p>Diga como você quer receber o resultado, para que ele já saia pronto
+para uso:</p>
+<ul>
+<li>“Em tópicos”, “em uma tabela”, “em um quadro com três colunas”.</li>
+<li>“Com no máximo uma página”, “com 10 questões”, “em até 5
+linhas”.</li>
+<li>“Com gabarito no final”, “separando a parte do professor da parte do
+aluno”.</li>
+<li>“Pronto para imprimir em preto e branco”.</li>
+</ul>
+</section>
+<section class="sub reveal" id="os-5-element-5-tom-e-linguagem-como-deve-soar">
+<h3><span class="badge">5</span>Tom e linguagem: como deve soar</h3>
+<p>O mesmo conteúdo pode ser escrito de jeitos muito diferentes. Diga
+qual você quer:</p>
+<ul>
+<li>“Linguagem simples e próxima da realidade de jovens da
+periferia.”</li>
+<li>“Tom formal, para enviar à coordenação.”</li>
+<li>“Tom acolhedor, para um comunicado aos responsáveis.”</li>
+<li>“Com exemplos do cotidiano dos alunos: futebol, redes sociais,
+trabalho, transporte público.”</li>
+</ul>
+</section>
+<section class="sub reveal" id="os-5-element-os-5-elementos-juntos">
+<h3>Os 5 elementos juntos</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um professor de Biologia do ensino médio de escola pública (papel). Crie uma aula introdutória sobre vacinas (tarefa) para uma turma do 1º ano, com 38 alunos, numa aula de 50 minutos, sem projetor; muitos alunos já ouviram notícias falsas sobre o tema (contexto). Organize em etapas com o tempo de cada uma e inclua 3 perguntas para debate (formato). Use linguagem simples e exemplos do dia a dia (tom)." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p><strong>Aja como</strong> um professor de Biologia do ensino médio de
+escola pública <strong>(papel)</strong>. <strong>Crie</strong> uma aula
+introdutória sobre vacinas <strong>(tarefa)</strong> para uma turma do
+1º ano, com 38 alunos, numa aula de 50 minutos, sem projetor; muitos
+alunos já ouviram notícias falsas sobre o tema
+<strong>(contexto)</strong>. Organize em etapas com o tempo de cada uma
+e inclua 3 perguntas para debate <strong>(formato)</strong>. Use
+linguagem simples e exemplos do dia a dia <strong>(tom)</strong>.</p>
+</blockquote></div>
+</section>
+</section>
+<section class="chapter" data-num="04" id="como-conversar-com-a-ia-melhorando-a-resposta-em">
+<span class="chapter-num">04</span><h2>Como conversar com a IA: melhorando a resposta em etapas</h2>
+<p class="reveal">A primeira resposta raramente é a final, e isso é normal. A IA
+funciona melhor como uma conversa do que como um pedido único. Em vez de
+apagar tudo e começar de novo, peça ajustes na mesma conversa: ela
+lembra do que já foi dito.</p>
+<p class="reveal"><strong>Pedidos de ajuste que funcionam bem:</strong></p>
+<ul class="reveal">
+<li><strong>Tamanho:</strong> “Deixe mais curto”, “Reduza para metade”,
+“Acrescente mais 3 questões”.</li>
+<li><strong>Nível:</strong> “Está difícil demais para a turma,
+simplifique”, “Aprofunde para alunos que vão fazer ENEM”.</li>
+<li><strong>Tom:</strong> “Deixe menos formal”, “Use exemplos mais
+próximos dos jovens”.</li>
+<li><strong>Parte específica:</strong> “Mantenha tudo, mas refaça só a
+questão 4”, “Troque a atividade final por um debate”.</li>
+<li><strong>Novas ideias:</strong> “Me dê mais 3 opções diferentes de
+abertura para essa aula”.</li>
+</ul>
+<p class="reveal"><strong>Exemplo de conversa:</strong></p>
+<div class="chat reveal"><div class="bubble me"><span class="who">Você</span><div>“Crie 5 questões sobre função do 1º grau para
+o 1º ano.”</div></div><div class="bubble ai"><span class="who">IA</span><div>entrega 5 questões só com cálculos.</div></div><div class="bubble me"><span class="who">Você</span><div>“Bom. Agora transforme 3 delas em situações
+do dia a dia, como corrida de aplicativo e conta de celular.”</div></div><div class="bubble ai"><span class="who">IA</span><div>reescreve com contexto.</div></div><div class="bubble me"><span class="who">Você</span><div>“Perfeito. Coloque o gabarito comentado no
+final, separado das questões.”</div></div></div>
+<p class="reveal"><strong>Quando começar uma conversa nova:</strong> se você vai mudar
+completamente de assunto (por exemplo, sair de uma prova de Matemática
+para um comunicado aos pais), abra uma conversa nova. Assim a IA não
+mistura as informações.</p>
+</section>
+<section class="chapter" data-num="05" id="tecnicas-extras-que-fazem-diferenca">
+<span class="chapter-num">05</span><h2>Técnicas extras que fazem diferença</h2>
+<section class="sub reveal" id="tecnicas-ext-entregue-o-material-de-apoio">
+<h3>Entregue o material de apoio</h3>
+<p>Se você tem um texto do livro didático, um trecho de lei ou uma
+notícia confiável, cole no prompt e peça: “Use apenas este texto como
+base”. Assim a IA trabalha em cima de uma fonte que você conhece e
+inventa muito menos.</p>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="“Com base apenas no texto abaixo, crie 5 questões de interpretação para o 3º ano. Se algo não estiver no texto, não invente. [cole o texto aqui]”" type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>“Com base apenas no texto abaixo, crie 5 questões de interpretação
+para o 3º ano. Se algo não estiver no texto, não invente. <mark class="ph">[cole o texto
+aqui]</mark>”</p>
+</blockquote></div>
+</section>
+<section class="sub reveal" id="tecnicas-ext-mostre-um-modelo">
+<h3>Mostre um modelo</h3>
+<p>Se você já tem uma atividade que deu certo, cole como exemplo e peça
+algo “no mesmo estilo”. A IA copia o formato, o tamanho e o nível com
+muita precisão.</p>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="“Veja esta questão que usei no ano passado: [cole a questão]. Crie mais 5 no mesmo estilo e nível, agora sobre ecossistemas.”" type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>“Veja esta questão que usei no ano passado: <mark class="ph">[cole a questão]</mark>. Crie
+mais 5 no mesmo estilo e nível, agora sobre ecossistemas.”</p>
+</blockquote></div>
+</section>
+<section class="sub reveal" id="tecnicas-ext-peca-uma-previa-antes-do-material-completo">
+<h3>Peça uma prévia antes do material completo</h3>
+<p>Para materiais grandes (plano de bimestre, apostila, projeto), peça
+primeiro só o esqueleto. Você corrige o rumo cedo e evita refazer
+tudo.</p>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="“Antes de escrever o projeto completo, me mostre apenas os títulos das etapas e o que será feito em cada uma. Espere meu OK para continuar.”" type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>“Antes de escrever o projeto completo, me mostre apenas os títulos
+das etapas e o que será feito em cada uma. Espere meu OK para
+continuar.”</p>
+</blockquote></div>
+</section>
+<section class="sub reveal" id="tecnicas-ext-deixe-a-ia-fazer-perguntas">
+<h3>Deixe a IA fazer perguntas</h3>
+<p>Quando você não sabe bem o que informar, inverta o jogo:</p>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="“Quero preparar uma aula sobre Iluminismo. Antes de criar qualquer coisa, me faça até 5 perguntas sobre minha turma e meus objetivos.”" type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>“Quero preparar uma aula sobre Iluminismo. Antes de criar qualquer
+coisa, me faça até 5 perguntas sobre minha turma e meus objetivos.”</p>
+</blockquote></div>
+</section>
+<section class="sub reveal" id="tecnicas-ext-peca-opcoes-para-escolher">
+<h3>Peça opções para escolher</h3>
+<p>Em vez de uma resposta única, peça alternativas. Isso ajuda muito em
+atividades de abertura, títulos de projeto e dinâmicas.</p>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="“Sugira 3 formas diferentes de começar uma aula sobre porcentagem: uma com história, uma com desafio e uma com um objeto do dia a dia.”" type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>“Sugira 3 formas diferentes de começar uma aula sobre porcentagem:
+uma com história, uma com desafio e uma com um objeto do dia a dia.”</p>
+</blockquote></div>
+</section>
+<section class="sub reveal" id="tecnicas-ext-peca-que-ela-revise-o-proprio-trabalho">
+<h3>Peça que ela revise o próprio trabalho</h3>
+<p>Depois de receber o material, peça uma checagem:</p>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="“Revise as questões que você criou. Alguma tem duas respostas possíveis, erro de conteúdo ou enunciado confuso? Corrija e me diga o que mudou.”" type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>“Revise as questões que você criou. Alguma tem duas respostas
+possíveis, erro de conteúdo ou enunciado confuso? Corrija e me diga o
+que mudou.”</p>
+</blockquote></div>
+</section>
+</section>
+<section class="chapter" data-num="06" id="erros-comuns-e-como-corrigir">
+<span class="chapter-num">06</span><h2>Erros comuns e como corrigir</h2>
+<div class="table-wrap reveal"><table class="">
+
+<thead>
+<tr class="header">
+<th><strong>Erro</strong></th>
+<th><strong>Exemplo</strong></th>
+<th><strong>Como corrigir</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pedido vago</td>
+<td>“Faça algo sobre meio ambiente.”</td>
+<td>Diga o que entregar, para quem e para quê: “Crie um debate de 40
+minutos sobre lixo urbano para o 2º ano.”</td>
+</tr>
+<tr class="even">
+<td>Esquecer a turma</td>
+<td>“Explique genética.”</td>
+<td>Informe série, idade e o que os alunos já sabem.</td>
+</tr>
+<tr class="odd">
+<td>Pedir tudo de uma vez</td>
+<td>Plano do bimestre + provas + slides em um só pedido</td>
+<td>Divida em partes e peça uma de cada vez, na mesma conversa.</td>
+</tr>
+<tr class="even">
+<td>Não dizer o tamanho</td>
+<td>“Escreva um texto sobre o Brasil Império.”</td>
+<td>Defina o limite: “em até 1 página”, “com 3 parágrafos”.</td>
+</tr>
+<tr class="odd">
+<td>Aceitar a primeira resposta</td>
+<td>Usar o material sem ler</td>
+<td>Leia, peça ajustes e confira os fatos antes de levar para a
+sala.</td>
+</tr>
+<tr class="even">
+<td>Confiar em dados sem conferir</td>
+<td>Datas, números, citações e nomes de autores</td>
+<td>Confira em fonte confiável (livro didático, site oficial). A IA pode
+inventar com muita convicção.</td>
+</tr>
+<tr class="odd">
+<td>Pedidos negativos demais</td>
+<td>“Não faça longo, não use termos difíceis, não seja formal.”</td>
+<td>Diga o que você quer, e não só o que não quer: “Faça curto, com
+palavras simples e tom de conversa.”</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="chapter" data-num="07" id="modelos-de-prompts-prontos-para-o-ensino-medio">
+<span class="chapter-num">07</span><h2>Modelos de prompts prontos para o ensino médio</h2>
+<p class="reveal">Copie o modelo, troque o que está entre colchetes [ ] pela sua
+realidade e envie. Os exemplos entre parênteses são só sugestões.</p><div class="search reveal"><svg aria-hidden="true" height="18" viewbox="0 0 24 24" width="18"><circle cx="11" cy="11" fill="none" r="7" stroke="currentColor" stroke-width="2"></circle><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg><input aria-label="Filtrar modelos" id="tplSearch" placeholder="Filtrar modelos: ENEM, redação, debate…" type="search"/><span id="tplCount"></span></div>
+<section class="sub reveal tpl" id="modelos-de-p-1-sequencia-de-aulas">
+<h3><span class="badge">1</span>Sequência de aulas</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um professor de [disciplina] do ensino médio de escola pública. Planeje uma sequência de [número] aulas de [duração, ex.: 50 minutos] sobre [tema] para o [ano] ano. A turma tem [número] alunos e os recursos disponíveis são [ex.: quadro, celular dos alunos, sem internet]. Os alunos já sabem [o que já foi visto]. Para cada aula, indique: objetivo, abertura, desenvolvimento, atividade e fechamento, com o tempo de cada etapa. Use linguagem simples. Antes de detalhar, mostre um resumo das aulas e espere meu OK." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um professor de <mark class="ph">[disciplina]</mark> do ensino médio de escola
+pública. Planeje uma sequência de <mark class="ph">[número]</mark> aulas de <mark class="ph">[duração, ex.: 50
+minutos]</mark> sobre <mark class="ph">[tema]</mark> para o <mark class="ph">[ano]</mark> ano. A turma tem <mark class="ph">[número]</mark> alunos e os
+recursos disponíveis são <mark class="ph">[ex.: quadro, celular dos alunos, sem
+internet]</mark>. Os alunos já sabem <mark class="ph">[o que já foi visto]</mark>. Para cada aula,
+indique: objetivo, abertura, desenvolvimento, atividade e fechamento,
+com o tempo de cada etapa. Use linguagem simples. Antes de detalhar,
+mostre um resumo das aulas e espere meu OK.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-2-questoes-no-estilo-enem">
+<h3><span class="badge">2</span>Questões no estilo ENEM</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um elaborador de questões do ENEM. Crie [número] questões de múltipla escolha sobre [tema], para alunos do [ano] ano. Cada questão deve ter um texto de apoio curto (notícia, gráfico descrito, trecho literário ou situação do cotidiano), um comando claro e 5 alternativas (A a E), com apenas uma correta. No final, coloque o gabarito com uma explicação curta de por que cada alternativa está certa ou errada." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um elaborador de questões do ENEM. Crie <mark class="ph">[número]</mark> questões de
+múltipla escolha sobre <mark class="ph">[tema]</mark>, para alunos do <mark class="ph">[ano]</mark> ano. Cada questão
+deve ter um texto de apoio curto (notícia, gráfico descrito, trecho
+literário ou situação do cotidiano), um comando claro e 5 alternativas
+(A a E), com apenas uma correta. No final, coloque o gabarito com uma
+explicação curta de por que cada alternativa está certa ou errada.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-3-proposta-de-redacao-com-correcao-orientada">
+<h3><span class="badge">3</span>Proposta de redação com correção orientada</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um corretor experiente de redações do ENEM. Crie uma proposta de redação dissertativo-argumentativa sobre [tema], com 3 textos motivadores curtos. Depois, crie um roteiro simples para os alunos revisarem a própria redação, seguindo as 5 competências, em linguagem que um aluno do [ano] ano entenda." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um corretor experiente de redações do ENEM. Crie uma
+proposta de redação dissertativo-argumentativa sobre <mark class="ph">[tema]</mark>, com 3
+textos motivadores curtos. Depois, crie um roteiro simples para os
+alunos revisarem a própria redação, seguindo as 5 competências, em
+linguagem que um aluno do <mark class="ph">[ano]</mark> ano entenda.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-4-correcao-e-devolutiva-de-redacao">
+<h3><span class="badge">4</span>Correção e devolutiva de redação</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um corretor de redações do ENEM. Leia a redação abaixo (sem o nome do aluno) e faça uma devolutiva respeitosa e encorajadora: 2 pontos fortes, 3 pontos para melhorar com exemplos do próprio texto e uma sugestão prática para a próxima redação. Não reescreva o texto inteiro. [cole a redação]" type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um corretor de redações do ENEM. Leia a redação abaixo (sem
+o nome do aluno) e faça uma devolutiva respeitosa e encorajadora: 2
+pontos fortes, 3 pontos para melhorar com exemplos do próprio texto e
+uma sugestão prática para a próxima redação. Não reescreva o texto
+inteiro. <mark class="ph">[cole a redação]</mark></p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-5-explicar-um-conteudo-dificil">
+<h3><span class="badge">5</span>Explicar um conteúdo difícil</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um professor de [disciplina] que explica de forma simples. Explique [conceito, ex.: equilíbrio químico] para alunos do [ano] ano que têm dificuldade com o tema. Use uma comparação com algo do cotidiano, um exemplo prático e no máximo 3 parágrafos curtos. No final, sugira 2 perguntas rápidas para eu verificar se a turma entendeu." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um professor de <mark class="ph">[disciplina]</mark> que explica de forma simples.
+Explique <mark class="ph">[conceito, ex.: equilíbrio químico]</mark> para alunos do <mark class="ph">[ano]</mark> ano
+que têm dificuldade com o tema. Use uma comparação com algo do
+cotidiano, um exemplo prático e no máximo 3 parágrafos curtos. No final,
+sugira 2 perguntas rápidas para eu verificar se a turma entendeu.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-6-adaptar-um-texto-para-quem-tem-dificuldade-de">
+<h3><span class="badge">6</span>Adaptar um texto para quem tem dificuldade de leitura</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um especialista em leitura e letramento. Reescreva o texto abaixo para alunos do [ano] ano com dificuldade de leitura. Mantenha as ideias principais, use frases curtas, troque palavras difíceis por palavras comuns e explique entre parênteses os termos que não puderem ser trocados. No final, crie um pequeno glossário com até 5 palavras. [cole o texto]" type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um especialista em leitura e letramento. Reescreva o texto
+abaixo para alunos do <mark class="ph">[ano]</mark> ano com dificuldade de leitura. Mantenha as
+ideias principais, use frases curtas, troque palavras difíceis por
+palavras comuns e explique entre parênteses os termos que não puderem
+ser trocados. No final, crie um pequeno glossário com até 5 palavras.
+<mark class="ph">[cole o texto]</mark></p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-7-atividade-de-recuperacao">
+<h3><span class="badge">7</span>Atividade de recuperação</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um professor de [disciplina] experiente em recuperação de aprendizagem. Crie uma atividade de recuperação sobre [tema] para o [ano] ano, para alunos que tiveram dificuldade em [ponto específico]. Comece com uma explicação curta do conteúdo, depois 3 exercícios fáceis, 3 médios e 1 desafio. Inclua o gabarito separado." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um professor de <mark class="ph">[disciplina]</mark> experiente em recuperação de
+aprendizagem. Crie uma atividade de recuperação sobre <mark class="ph">[tema]</mark> para o
+<mark class="ph">[ano]</mark> ano, para alunos que tiveram dificuldade em <mark class="ph">[ponto específico]</mark>.
+Comece com uma explicação curta do conteúdo, depois 3 exercícios fáceis,
+3 médios e 1 desafio. Inclua o gabarito separado.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-8-debate-ou-juri-simulado">
+<h3><span class="badge">8</span>Debate ou júri simulado</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um professor de [Sociologia/Filosofia/História] que trabalha com metodologias ativas. Organize um debate de [duração] sobre [tema polêmico adequado à idade, ex.: redução da maioridade penal] para o [ano] ano, com [número] alunos. Indique: a pergunta central, a divisão dos grupos, os argumentos que cada lado pode pesquisar, as regras de fala e respeito e como avaliar a participação. Apresente os dois lados de forma equilibrada." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um professor de <mark class="ph">[Sociologia/Filosofia/História]</mark> que trabalha
+com metodologias ativas. Organize um debate de <mark class="ph">[duração]</mark> sobre <mark class="ph">[tema
+polêmico adequado à idade, ex.: redução da maioridade penal]</mark> para o
+<mark class="ph">[ano]</mark> ano, com <mark class="ph">[número]</mark> alunos. Indique: a pergunta central, a divisão
+dos grupos, os argumentos que cada lado pode pesquisar, as regras de
+fala e respeito e como avaliar a participação. Apresente os dois lados
+de forma equilibrada.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-9-projeto-de-vida-e-orientacao">
+<h3><span class="badge">9</span>Projeto de vida e orientação</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um orientador educacional que trabalha com o componente Projeto de Vida. Crie uma dinâmica de [duração] para alunos do [ano] ano sobre [tema, ex.: escolha de profissão, primeiro emprego, ENEM e universidades públicas]. A atividade deve ser acolhedora, não expor os alunos e funcionar sem internet. Inclua uma reflexão escrita individual no final." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um orientador educacional que trabalha com o componente
+Projeto de Vida. Crie uma dinâmica de <mark class="ph">[duração]</mark> para alunos do <mark class="ph">[ano]</mark> ano
+sobre <mark class="ph">[tema, ex.: escolha de profissão, primeiro emprego, ENEM e
+universidades públicas]</mark>. A atividade deve ser acolhedora, não expor os
+alunos e funcionar sem internet. Inclua uma reflexão escrita individual
+no final.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-10-comunicado-para-responsaveis">
+<h3><span class="badge">10</span>Comunicado para responsáveis</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um professor que escreve com clareza e gentileza. Escreva um comunicado curto para os responsáveis dos alunos do [ano] ano sobre [assunto, ex.: reunião de pais, entrega de boletins, passeio]. Informe data, horário e local: [dados]. Use linguagem simples e acolhedora, com no máximo 6 linhas, pronto para enviar por WhatsApp." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um professor que escreve com clareza e gentileza. Escreva um
+comunicado curto para os responsáveis dos alunos do <mark class="ph">[ano]</mark> ano sobre
+<mark class="ph">[assunto, ex.: reunião de pais, entrega de boletins, passeio]</mark>. Informe
+data, horário e local: <mark class="ph">[dados]</mark>. Use linguagem simples e acolhedora, com
+no máximo 6 linhas, pronto para enviar por WhatsApp.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-11-rubrica-de-avaliacao">
+<h3><span class="badge">11</span>Rubrica de avaliação</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um especialista em avaliação escolar. Crie uma rubrica para avaliar [tipo de trabalho, ex.: seminário em grupo] de alunos do [ano] ano. Use uma tabela com 4 critérios (ex.: conteúdo, organização, apresentação, trabalho em equipe) e 4 níveis (insuficiente, regular, bom, excelente), com uma descrição curta em cada célula. A soma deve dar [nota máxima] pontos." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um especialista em avaliação escolar. Crie uma rubrica para
+avaliar <mark class="ph">[tipo de trabalho, ex.: seminário em grupo]</mark> de alunos do <mark class="ph">[ano]</mark>
+ano. Use uma tabela com 4 critérios (ex.: conteúdo, organização,
+apresentação, trabalho em equipe) e 4 níveis (insuficiente, regular,
+bom, excelente), com uma descrição curta em cada célula. A soma deve dar
+<mark class="ph">[nota máxima]</mark> pontos.</p>
+</blockquote></div>
+</section>
+<section class="sub reveal tpl" id="modelos-de-p-12-revisao-para-prova">
+<h3><span class="badge">12</span>Revisão para prova</h3>
+<div class="prompt reveal"><div class="prompt-head"><span class="prompt-tag">Prompt</span><button aria-label="Copiar prompt" class="copy" data-copy="Aja como um professor de [disciplina] preparando a turma para a prova. Crie um resumo de revisão sobre [tema] para o [ano] ano, em tópicos, com os conceitos mais importantes, 1 exemplo para cada um e 5 perguntas de autoavaliação com respostas no final. Deve caber em uma página para imprimir." type="button"><svg aria-hidden="true" height="16" viewbox="0 0 24 24" width="16"><rect fill="none" height="11" rx="2" stroke="currentColor" stroke-width="2" width="11" x="9" y="9"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9" fill="none" stroke="currentColor" stroke-width="2"></path></svg><span>Copiar</span></button></div><blockquote class="">
+<p>Aja como um professor de <mark class="ph">[disciplina]</mark> preparando a turma para a
+prova. Crie um resumo de revisão sobre <mark class="ph">[tema]</mark> para o <mark class="ph">[ano]</mark> ano, em
+tópicos, com os conceitos mais importantes, 1 exemplo para cada um e 5
+perguntas de autoavaliação com respostas no final. Deve caber em uma
+página para imprimir.</p>
+</blockquote></div>
+</section>
+</section>
+<section class="chapter" data-num="08" id="cuidados-importantes">
+<span class="chapter-num">08</span><h2>Cuidados importantes</h2>
+<ul class="reveal">
+<li><strong>Proteja os alunos:</strong> nunca coloque nomes completos,
+fotos, laudos, notas individuais, endereços ou qualquer dado que
+identifique um aluno ou família. Descreva a situação de forma geral: “um
+aluno com dificuldade de concentração”, e não “o João Silva, do 2º
+B”.</li>
+<li><strong>Confira antes de usar:</strong> a IA pode errar ou inventar
+datas, números, citações e autores com muita segurança. Todo material
+que vai para a sala deve ser lido e conferido por você.</li>
+<li><strong>Você é o autor final:</strong> a IA é uma assistente, não
+substitui seu conhecimento da turma e seu julgamento pedagógico. Ajuste
+o que for preciso.</li>
+<li><strong>Respeite as orientações da sua rede:</strong> verifique se
+sua secretaria de educação ou escola tem regras sobre o uso de IA.</li>
+<li><strong>Converse com os alunos sobre IA:</strong> se eles também
+usam, vale ensinar as mesmas regras: pedir bem, conferir sempre e não
+entregar como próprio um texto que não escreveram.</li>
+</ul>
+</section>
+<section class="chapter" data-num="09" id="checklist-antes-de-enviar-o-prompt">
+<span class="chapter-num">09</span><h2>Checklist antes de enviar o prompt</h2><div class="check-progress reveal"><div class="bar"><i id="checkBar"></i></div><span id="checkCount">0 de 11</span><button class="ghost" id="checkReset" type="button">Limpar</button></div>
+<p class="reveal">Antes de apertar “enviar”, confira:</p>
+<ul class="task-list reveal">
+<li><label><input data-key="c0" type="checkbox"/><span aria-hidden="true" class="box"></span>Disse <strong>quem</strong> a IA
+deve ser (papel)?</label></li>
+<li><label><input data-key="c1" type="checkbox"/><span aria-hidden="true" class="box"></span>Usei um <strong>verbo claro</strong>
+e disse o que quero receber (tarefa)?</label></li>
+<li><label><input data-key="c2" type="checkbox"/><span aria-hidden="true" class="box"></span>Informei <strong>série, tempo,
+recursos e objetivo</strong> (contexto)?</label></li>
+<li><label><input data-key="c3" type="checkbox"/><span aria-hidden="true" class="box"></span>Disse <strong>como</strong> quero a
+resposta: tamanho, tópicos, tabela, gabarito (formato)?</label></li>
+<li><label><input data-key="c4" type="checkbox"/><span aria-hidden="true" class="box"></span>Indiquei o <strong>tom e a
+linguagem</strong> (simples, formal, acolhedora)?</label></li>
+<li><label><input data-key="c5" type="checkbox"/><span aria-hidden="true" class="box"></span>Colei o <strong>material de
+apoio</strong> ou um <strong>modelo</strong>, se eu tiver?</label></li>
+<li><label><input data-key="c6" type="checkbox"/><span aria-hidden="true" class="box"></span>Para materiais grandes, pedi uma
+<strong>prévia</strong> antes?</label></li>
+<li><label><input data-key="c7" type="checkbox"/><span aria-hidden="true" class="box"></span>Tirei <strong>nomes e dados
+pessoais</strong> dos alunos?</label></li>
+</ul>
+<p class="reveal">E depois de receber a resposta:</p>
+<ul class="task-list reveal">
+<li><label><input data-key="c8" type="checkbox"/><span aria-hidden="true" class="box"></span>Li tudo com atenção?</label></li>
+<li><label><input data-key="c9" type="checkbox"/><span aria-hidden="true" class="box"></span>Conferi datas, números e
+fatos?</label></li>
+<li><label><input data-key="c10" type="checkbox"/><span aria-hidden="true" class="box"></span>Pedi os ajustes necessários na mesma
+conversa?</label></li>
+</ul>
+</section>
+
+    <section class="closing reveal" id="agestar-ia" aria-label="Agestar IA 2026.2">
+      <div class="closing-text">
+        <span class="closing-eyebrow">Agestar IA 2026.2</span>
+        <h2>IA na prática para professores</h2>
+        <p>Obrigado por percorrer este manual até o fim. Agora é com você: escolha um modelo, adapte para a sua turma e confira o resultado antes de levar para a sala.</p>
+        <div class="closing-actions">
+          <a class="btn primary" href="#modelos-de-prompts-prontos-para-o-ensino-medio">Voltar aos modelos</a>
+          <a class="btn outline" href="equipe.html" target="_blank" rel="noopener">Ver equipe ↗</a>
+        </div>
+      </div>
+      <button class="closing-art" type="button" id="artOpen" aria-label="Ampliar arte do Agestar IA 2026.2">
+        <img src="assets/agestar-ia-2026-2.jpg" alt="Arte do Agestar IA 2026.2: IA na prática para professores. Agradecemos a sua participação! Sua presença fortalece a inovação e o uso da IA na educação. UniFG Centro Universitário." loading="lazy" width="1044" height="1507">
+        <span class="zoom-hint">Clique para ampliar</span>
+      </button>
+    </section>
+  </main>
+</div>
+
+<footer>Manual de Prompts para Professores do Ensino Médio · Confira sempre o material antes de levar para a sala.</footer>
+
+<div class="scrim" id="scrim"></div>
+<button class="totop" id="totop" aria-label="Voltar ao topo">
+  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Arte do Agestar IA 2026.2">
+  <button class="lb-close" id="lbClose" type="button" aria-label="Fechar">✕</button>
+  <img src="assets/agestar-ia-2026-2.jpg" alt="Arte do Agestar IA 2026.2">
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  const $ = (s,c=document)=>c.querySelector(s), $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // wrap toc sub lists for smooth collapse
+  $$('.toc .subs').forEach(ul=>{const d=document.createElement('div');d.className='subs-inner';while(ul.firstChild)d.appendChild(ul.firstChild);const li=document.createElement('li');li.style.minHeight='0';li.appendChild(d);ul.appendChild(li);});
+
+  // smooth navigation for in-page links
+  function go(id){
+    const el=document.getElementById(id); if(!el) return;
+    el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+    try{history.replaceState(null,'','#'+id);}catch(e){}
+  }
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('a[href^="#"]'); if(!a) return;
+    const id=a.getAttribute('href').slice(1); if(!id) return;
+    e.preventDefault(); document.body.classList.remove('nav-open'); $('#menuBtn').setAttribute('aria-expanded','false'); go(id);
+  });
+
+  // reveal on scroll
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}}),{rootMargin:'0px 0px -8% 0px',threshold:.05});
+  $$('.reveal').forEach(el=>io.observe(el));
+
+  // pager between chapters
+  const chapters=$$('.chapter');
+  const label=a=>$('.toc a[data-target="'+a.id+'"] .t').textContent;
+  chapters.forEach((c,i)=>{
+    const p=document.createElement('div');p.className='pager';
+    if(chapters[i-1]) p.innerHTML+='<a class="prev" href="#'+chapters[i-1].id+'"><small>← Anterior</small>'+label(chapters[i-1])+'</a>';
+    if(chapters[i+1]) p.innerHTML+='<a class="next" href="#'+chapters[i+1].id+'"><small>Próximo →</small>'+label(chapters[i+1])+'</a>';
+    c.appendChild(p);
+  });
+
+  // scrollspy + progress + topbar
+  const targets=$$('.chapter, .sub');
+  const links=Object.fromEntries($$('.toc a[data-target]').map(a=>[a.dataset.target,a]));
+  const cur=$('#current'), bar=$('#prog'), top=$('#topbar'), totop=$('#totop');
+  let ticking=false;
+  function spy(){
+    ticking=false;
+    const y=scrollY, h=document.documentElement.scrollHeight-innerHeight;
+    bar.style.width=(h>0?y/h*100:0)+'%';
+    top.classList.toggle('scrolled',y>40);
+    totop.classList.toggle('show',y>innerHeight*1.2);
+    const line=y+innerHeight*.28;
+    let ch=null, sub=null;
+    for(const c of chapters){ if(c.offsetTop<=line) ch=c; }
+    if(ch){ for(const s of $$('.sub',ch)){ if(s.offsetTop<=line && !s.classList.contains('hidden')) sub=s; } }
+    $$('.toc a.active').forEach(a=>a.classList.remove('active'));
+    $$('.toc li.open').forEach(l=>l.classList.remove('open'));
+    if(ch){ const a=links[ch.id]; a.classList.add('active'); a.parentElement.classList.add('open'); cur.textContent=ch.dataset.num+' · '+label(ch); }
+    else cur.textContent='';
+    if(sub && links[sub.id]) links[sub.id].classList.add('active');
+  }
+  addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(spy);}},{passive:true});
+  addEventListener('resize',spy); spy();
+  totop.addEventListener('click',()=>{scrollTo({top:0,behavior:reduce?'auto':'smooth'});});
+
+  // mobile menu
+  const mb=$('#menuBtn');
+  mb.addEventListener('click',()=>{const o=document.body.classList.toggle('nav-open');mb.setAttribute('aria-expanded',o);});
+  $('#scrim').addEventListener('click',()=>{document.body.classList.remove('nav-open');mb.setAttribute('aria-expanded','false');});
+  addEventListener('keydown',e=>{if(e.key==='Escape')document.body.classList.remove('nav-open');});
+
+  // toast
+  const toast=$('#toast'); let tt;
+  function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('show'),1800);}
+
+  // copy
+  $$('.copy').forEach(b=>b.addEventListener('click',async()=>{
+    const txt=b.dataset.copy, sp=b.querySelector('span');
+    let ok=false;
+    try{await navigator.clipboard.writeText(txt);ok=true;}catch(e){
+      try{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();ok=document.execCommand('copy');ta.remove();}catch(_){}
+    }
+    if(ok){b.classList.add('done');sp.textContent='Copiado!';say('Prompt copiado. Agora é só trocar os [colchetes].');setTimeout(()=>{b.classList.remove('done');sp.textContent='Copiar';},1800);}
+    else{
+      const sel=getSelection(),r=document.createRange();r.selectNodeContents(b.closest('.prompt').querySelector('blockquote'));sel.removeAllRanges();sel.addRange(r);
+      say('Texto selecionado: use Ctrl+C para copiar.');
+    }
+  }));
+
+  // template filter
+  const tpls=$$('.tpl'), q=$('#tplSearch'), cnt=$('#tplCount');
+  const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  const empty=document.createElement('p');empty.className='empty';empty.textContent='Nenhum modelo encontrado. Tente outra palavra.';
+  if(tpls.length){tpls[tpls.length-1].after(empty);}
+  function filter(){
+    const v=norm(q.value.trim()); let n=0;
+    tpls.forEach(t=>{const hit=!v||norm(t.textContent).includes(v);t.classList.toggle('hidden',!hit);if(hit){n++;t.classList.add('in');t.querySelectorAll('.reveal').forEach(r=>r.classList.add('in'));}
+      const a=links[t.id]; if(a) a.parentElement.style.display=hit?'':'none';});
+    cnt.textContent=v? n+' de '+tpls.length : tpls.length+' modelos';
+    empty.style.display=n?'none':'block';
+  }
+  if(q){q.addEventListener('input',filter);filter();}
+
+  // checklist
+  const boxes=$$('.task-list input'), KEY='manual-prompts-checklist';
+  let saved={}; try{saved=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){}
+  boxes.forEach(b=>{b.disabled=false;b.checked=!!saved[b.dataset.key];});
+  function upd(){
+    const n=boxes.filter(b=>b.checked).length;
+    $('#checkBar').style.width=(n/boxes.length*100)+'%';
+    $('#checkCount').textContent=n+' de '+boxes.length;
+    const s={};boxes.forEach(b=>{if(b.checked)s[b.dataset.key]=1;});
+    try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}
+    return n;
+  }
+  boxes.forEach(b=>b.addEventListener('change',()=>{if(upd()===boxes.length)say('Tudo conferido! Pode enviar seu prompt.');}));
+  $('#checkReset').addEventListener('click',()=>{boxes.forEach(b=>b.checked=false);upd();});
+  upd();
+
+
+  // theme toggle
+  $('#themeBtn').addEventListener('click',()=>{
+    const d=document.documentElement, n=d.getAttribute('data-theme')==='dark'?'light':'dark';
+    d.setAttribute('data-theme',n); try{localStorage.setItem('manual-theme',n);}catch(e){}
+  });
+
+  addEventListener('storage',e=>{if(e.key==='manual-theme'&&e.newValue)document.documentElement.setAttribute('data-theme',e.newValue);});
+
+  // lightbox da arte
+  const lb=$('#lightbox');
+  const openLb=()=>{lb.classList.add('open');document.body.style.overflow='hidden';$('#lbClose').focus();};
+  const closeLb=()=>{lb.classList.remove('open');document.body.style.overflow='';};
+  $('#artOpen').addEventListener('click',openLb);
+  lb.addEventListener('click',e=>{if(e.target===lb||e.target.id==='lbClose')closeLb();});
+  addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+  // open on hash
+  if(location.hash){const id=decodeURIComponent(location.hash.slice(1));setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView();},60);}
+})();
+</script>
+</body>
+</html>

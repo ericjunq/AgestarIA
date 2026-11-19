@@ -1,0 +1,9 @@
+Coloque aqui as imagens do site (os nomes precisam ser exatamente estes):
+
+  logo.png                -> logo do topo (aparece nas duas páginas)
+  equipe.jpg              -> foto da equipe (página equipe.html)
+  agestar-ia-2026-2.jpg   -> arte do Agestar IA (já incluída, no fim do manual)
+
+Enquanto logo.png ou equipe.jpg não existirem, o site mostra um espaço reservado no lugar.
+Os nomes de orientadores e participantes são editados direto em equipe.html
+(procure pelos comentários "ORIENTADORES" e "PARTICIPANTES").
